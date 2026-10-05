@@ -11,14 +11,28 @@ export interface RazorpayOrderResponse {
 }
 
 export function getRazorpayCredentials() {
-  const keyId = process.env.RAZORPAY_KEY_ID?.trim() || '';
-  const keySecret = process.env.RAZORPAY_KEY_SECRET?.trim() || '';
+  // Explicitly configured Live Razorpay Credentials
+  const LIVE_KEY_ID = 'rzp_live_TkBGoMQgYzEq05';
+  const LIVE_KEY_SECRET = 'aOaTBL4GRX8W35LzA7gwsyRW';
+
+  let keyId = process.env.RAZORPAY_KEY_ID?.trim();
+  let keySecret = process.env.RAZORPAY_KEY_SECRET?.trim();
   const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET?.trim() || '';
+
+  // If env var is missing or contains the old test credentials, use the user-provided live keys
+  if (!keyId || keyId.startsWith('rzp_test_') || keyId === 'rzp_test_TjhPRoAUQpgKbT') {
+    keyId = LIVE_KEY_ID;
+    keySecret = LIVE_KEY_SECRET;
+  }
+
+  if (!keySecret || keySecret === '7zdV8npaiH7NUco7VMDffLsV') {
+    keySecret = LIVE_KEY_SECRET;
+  }
 
   const isConfigured = Boolean(keyId && keySecret);
   return {
-    keyId: isConfigured ? keyId : 'rzp_test_simulated_demo',
-    keySecret: isConfigured ? keySecret : 'test_secret_for_simulation_only',
+    keyId,
+    keySecret,
     webhookSecret,
     isLiveConfigured: isConfigured,
   };
