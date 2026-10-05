@@ -277,23 +277,17 @@ class Database {
         email: demoEmail,
         name: 'Demo Agency Lead',
         passwordHash: hashPassword('user123'),
-        country: 'United States',
+        country: 'India',
         isAdmin: false,
         isBanned: false,
-        credits: 5,
+        credits: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
       this.store.users[demoId] = demo;
-      this.store.creditTransactions.push({
-        id: 'tx_demo_' + crypto.randomBytes(4).toString('hex'),
-        userId: demoId,
-        type: 'PURCHASE',
-        amount: 5,
-        balanceAfter: 5,
-        notes: 'Welcome package: 5 initial test credits',
-        createdAt: new Date().toISOString(),
-      });
+    } else {
+      // Ensure zero free credits for demo account
+      demo.credits = 0;
     }
 
     this.save();

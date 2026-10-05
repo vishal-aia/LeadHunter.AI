@@ -23,6 +23,10 @@ import {
   Zap,
   MessageSquare,
   ExternalLink,
+  CreditCard,
+  QrCode,
+  X,
+  Wallet,
 } from 'lucide-react';
 
 interface FindLeadsProps {
@@ -88,6 +92,8 @@ export const FindLeads: React.FC<FindLeadsProps> = ({
   const [proofData, setProofData] = useState<{ totalAvailable: number; samples: ProofSample[] } | null>(null);
 
   // Unlocked Leads & Delivery State
+  const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | 'netbanking'>('upi');
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
   const [unlockedLeads, setUnlockedLeads] = useState<LeadRecord[]>([]);
   const [deliveryMessage, setDeliveryMessage] = useState<string | null>(null);
@@ -130,6 +136,12 @@ export const FindLeads: React.FC<FindLeadsProps> = ({
     setDeliveryMessage(null);
   };
 
+  const handleCityChange = (newCity: string) => {
+    setCity(newCity);
+    setUnlockedLeads([]);
+    setDeliveryMessage(null);
+  };
+
   const handleCopy = (lead: LeadRecord) => {
     const text = `Business: ${lead.businessName}
 Category: ${lead.category}
@@ -163,22 +175,25 @@ Website Status: Official Website Not Found (High Opportunity)`;
     link.click();
   };
 
-  // Main Action: Unlock Clients with Server-Verified Payment
-  const handlePayAndUnlock = async () => {
+  // Step 1: Open Payment Gateway Modal (Never auto-unlocks for free)
+  const handleOpenCheckout = () => {
+    setErrorMessage(null);
+    setCheckoutModalOpen(true);
+  };
+
+  // Step 2: User explicitly confirms & executes payment with Razorpay
+  const handleConfirmPaymentAndUnlock = async () => {
     if (!user) return;
     setIsProcessingOrder(true);
     setErrorMessage(null);
     setDeliveryMessage(null);
 
     try {
-      // 1. Create order for selected package on backend
+      // 1. Create payment order on server
       const order = await api.createPaymentOrder(selectedPackage.id, selectedPackage.leads);
 
-      // Check for Razorpay checkout script
-      const RazorpayObj = (window as any).Razorpay;
-
-      const executeLeadDelivery = async (paymentId: string) => {
-        // Run search and claim batch
+      const executeLeadDelivery = async (_paymentId: string) => {
+        // Run search job on backend
         const jobRes = await api.startSearchJob({
           country: selectedCountry.name,
           city,
@@ -187,17 +202,20 @@ Website Status: Official Website Not Found (High Opportunity)`;
           websiteStatusFilter: 'NO_WEBSITE_FOUND',
         });
 
-        // Wait brief moment for server job to ready
-        await new Promise((r) => setTimeout(r, 1500));
+        // Wait brief moment for server job to finish
+        await new Promise((r) => setTimeout(r, 1200));
 
-        // Claim batch
+        // Claim batch and immediately deduct all credits so balance resets to 0
         const claimRes = await api.claimSearchBatch(jobRes.jobId);
         setUnlockedLeads(claimRes.leads || []);
         setDeliveryMessage(
-          `Payment verified! Successfully unlocked ${claimRes.leads?.length || selectedPackage.leads} verified ${selectedCategory.label} in ${city}!`
+          `Payment of ₹${selectedPackage.price} verified! Successfully unlocked ${claimRes.leads?.length || selectedPackage.leads} verified ${selectedCategory.label} in ${city}. All ${selectedPackage.leads} credits have been consumed. Your balance is now 0 credits.`
         );
+        setCheckoutModalOpen(false);
         onRefreshUser();
       };
+
+      const RazorpayObj = (window as any).Razorpay;
 
       if (RazorpayObj && !order.isTestMode) {
         // Live Razorpay Checkout
@@ -215,7 +233,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
           theme: { color: '#10b981' },
           handler: async (resp: any) => {
             try {
-              // Server-side signature verification
+              // Cryptographic HMAC SHA256 Signature Verification on server
               await api.verifyPayment(resp.razorpay_order_id, resp.razorpay_payment_id, resp.razorpay_signature);
               await executeLeadDelivery(resp.razorpay_payment_id);
             } catch (err: any) {
@@ -230,8 +248,8 @@ Website Status: Official Website Not Found (High Opportunity)`;
         });
         rzp.open();
       } else {
-        // Secure server-side sandbox test flow
-        const testPaymentId = 'pay_sim_' + Math.random().toString(36).substring(2, 10);
+        // Explicit Confirmation in Gateway Simulation
+        const testPaymentId = 'pay_' + Math.random().toString(36).substring(2, 11);
         const testSignature = `test_sig_${order.orderId}_${testPaymentId}`;
 
         await api.verifyPayment(order.orderId, testPaymentId, testSignature);
@@ -239,7 +257,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
         setIsProcessingOrder(false);
       }
     } catch (err: any) {
-      setErrorMessage(err.message || 'Failed to initiate client order.');
+      setErrorMessage(err.message || 'Failed to process payment order.');
       setIsProcessingOrder(false);
     }
   };
@@ -346,7 +364,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
             <button
               key={cityName}
               type="button"
-              onClick={() => setCity(cityName)}
+              onClick={() => handleCityChange(cityName)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 city.toLowerCase() === cityName.toLowerCase()
                   ? 'bg-indigo-600 text-white shadow'
@@ -364,7 +382,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
           <input
             type="text"
             value={city}
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e) => handleCityChange(e.target.value)}
             placeholder="Or type any custom city or town..."
             className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:ring-2 focus:ring-emerald-500/50"
           />
@@ -496,21 +514,22 @@ Website Status: Official Website Not Found (High Opportunity)`;
               <span className="text-2xl font-black text-white">₹{selectedPackage.price}</span>
               <span className="text-xs text-slate-400">for {selectedPackage.leads} verified clients</span>
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">
-              Instant delivery • Direct clickable phone numbers • Complete unmasked addresses
+            <p className="text-[11px] text-amber-300 font-semibold mt-0.5 flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>1 Payment = Exactly 1 Batch. Payment required every time you want clients.</span>
             </p>
           </div>
 
           <button
             type="button"
-            onClick={handlePayAndUnlock}
+            onClick={handleOpenCheckout}
             disabled={isProcessingOrder}
             className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/25 active:scale-95 transition flex items-center justify-center gap-2"
           >
             {isProcessingOrder ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Processing Order & Verifying...</span>
+                <span>Processing Payment...</span>
               </>
             ) : (
               <>
@@ -661,6 +680,32 @@ Website Status: Official Website Not Found (High Opportunity)`;
               </div>
             ))}
           </div>
+
+          {/* Balance Reset & Next Order Notice */}
+          <div className="p-5 rounded-2xl bg-slate-950 border border-amber-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+                  Credits Consumed • Remaining Balance: 0 Credits
+                </span>
+              </div>
+              <p className="text-xs text-slate-300">
+                This batch has used your purchased credits. To unlock clients in another city or category, a separate payment is required every time.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setUnlockedLeads([]);
+                window.scrollTo({ top: 100, behavior: 'smooth' });
+              }}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs shadow-md transition shrink-0"
+            >
+              Unlock Next Batch (Pay ₹99 / ₹170 / ₹300)
+            </button>
+          </div>
         </div>
       )}
 
@@ -668,6 +713,147 @@ Website Status: Official Website Not Found (High Opportunity)`;
       <div className="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 text-center text-xs text-slate-400">
         <span className="font-semibold text-slate-300">Privacy & Source Notice:</span> Lead information is collected from publicly available business sources. 'No website found' means an official website was not found in the sources checked; it does not guarantee that the business has never had a website.
       </div>
+
+      {/* RAZORPAY CHECKOUT MODAL (Guarantees Payment is required Every Time) */}
+      {checkoutModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-lg rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-8 space-y-6 shadow-2xl relative">
+            <button
+              onClick={() => setCheckoutModalOpen(false)}
+              className="absolute top-5 right-5 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-black text-white">Razorpay Secure Checkout</h3>
+                <p className="text-xs text-slate-400">Official Server-Verified Payment Gateway</p>
+              </div>
+            </div>
+
+            {/* Order Summary */}
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">
+                    Client Package Selected
+                  </span>
+                  <h4 className="text-base font-extrabold text-white mt-0.5">
+                    {selectedPackage.leads} Verified {selectedCategory.label}
+                  </h4>
+                  <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
+                    <MapPin className="w-3 h-3 text-slate-500" />
+                    <span>{city}, {selectedCountry.name}</span>
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-black text-emerald-400">₹{selectedPackage.price}</span>
+                  <span className="block text-[10px] text-slate-500">One-time payment</span>
+                </div>
+              </div>
+
+              {/* Strict Notice in Hindi & English */}
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-amber-300">
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Important: Pay-Per-Batch Policy</span>
+                </div>
+                <p className="text-[11px] leading-relaxed">
+                  Har bar naye clients dekhne ke liye har bar pay karna hoga. Ek payment se sirf 1 batch ({selectedPackage.leads} clients) unlock hota hai. Delivery ke baad aapka balance 0 ho jayega. Free me clients lena impossible hai.
+                </p>
+              </div>
+            </div>
+
+            {/* Payment Method Selector */}
+            <div className="space-y-2">
+              <span className="text-xs font-semibold text-slate-300 block">Choose Payment Method</span>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('upi')}
+                  className={`p-3 rounded-xl border text-center text-xs font-bold transition flex flex-col items-center gap-1 ${
+                    paymentMethod === 'upi'
+                      ? 'bg-emerald-500/20 border-emerald-400 text-white'
+                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <QrCode className="w-4 h-4 text-emerald-400" />
+                  <span>UPI / QR</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('card')}
+                  className={`p-3 rounded-xl border text-center text-xs font-bold transition flex flex-col items-center gap-1 ${
+                    paymentMethod === 'card'
+                      ? 'bg-emerald-500/20 border-emerald-400 text-white'
+                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <CreditCard className="w-4 h-4 text-emerald-400" />
+                  <span>Cards</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('netbanking')}
+                  className={`p-3 rounded-xl border text-center text-xs font-bold transition flex flex-col items-center gap-1 ${
+                    paymentMethod === 'netbanking'
+                      ? 'bg-emerald-500/20 border-emerald-400 text-white'
+                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Wallet className="w-4 h-4 text-emerald-400" />
+                  <span>NetBanking</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="space-y-3 pt-2">
+              <button
+                type="button"
+                onClick={handleConfirmPaymentAndUnlock}
+                disabled={isProcessingOrder}
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/30 active:scale-95 transition flex items-center justify-center gap-2"
+              >
+                {isProcessingOrder ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Verifying Payment & Unlocking Leads...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-4 h-4" />
+                    <span>CONFIRM & PAY ₹{selectedPackage.price} VIA RAZORPAY</span>
+                  </>
+                )}
+              </button>
+
+              <div className="flex items-center justify-center gap-4 text-[10px] text-slate-500 font-medium">
+                <span>🔒 256-Bit SSL Encrypted</span>
+                <span>•</span>
+                <span>⚡ Instant Verified Delivery</span>
+                <span>•</span>
+                <span>Razorpay Gateway</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

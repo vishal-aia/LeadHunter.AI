@@ -79,7 +79,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               <span className="text-xs text-slate-400">credits</span>
             </div>
             <p className="text-[11px] text-slate-500 mt-1">
-              {user.credits >= 5 ? 'Ready to run 1 search batch' : 'Purchase credits to run search'}
+              {user.credits > 0 ? `${user.credits} credits ready to unlock` : 'Payment required for each new client batch'}
             </p>
           </div>
           <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
@@ -229,8 +229,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
           </div>
 
           <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
-            <span className="text-slate-400 block text-[11px]">Credit Rule</span>
-            <span className="font-semibold text-emerald-400 block mt-0.5">Exactly 5 Leads / Search</span>
+            <span className="text-slate-400 block text-[11px]">Payment Rule</span>
+            <span className="font-semibold text-emerald-400 block mt-0.5">1 Payment = 1 Batch (Zero Free Access)</span>
           </div>
         </div>
       </div>
