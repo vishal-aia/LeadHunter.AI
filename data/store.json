@@ -1,0 +1,280 @@
+{
+  "users": {
+    "usr_admin_96998b18": {
+      "id": "usr_admin_96998b18",
+      "email": "admin@leadhunter.ai",
+      "name": "Chief Admin",
+      "passwordHash": "25cef8eb64aaa7a5262b2371de147128b5b1c092bacdb932bd953b1f6db4cd3a",
+      "country": "India",
+      "isAdmin": true,
+      "isBanned": false,
+      "credits": 100,
+      "createdAt": "2026-10-04T04:16:16.748Z",
+      "updatedAt": "2026-10-04T04:16:16.748Z"
+    },
+    "usr_demo_066f8761": {
+      "id": "usr_demo_066f8761",
+      "email": "demo@leadhunter.ai",
+      "name": "Demo Agency Lead",
+      "passwordHash": "1a7be529128242a4a6f738533a45cdcfd3a4c03c5aa130651eb20296299cbc52",
+      "country": "United States",
+      "isAdmin": false,
+      "isBanned": false,
+      "credits": 5,
+      "createdAt": "2026-10-04T04:16:16.749Z",
+      "updatedAt": "2026-10-04T04:16:56.764Z"
+    }
+  },
+  "payments": {
+    "pay_59ccd690-7ec7-4737-8102-7d6c106e927a": {
+      "id": "pay_59ccd690-7ec7-4737-8102-7d6c106e927a",
+      "userId": "usr_demo_066f8761",
+      "razorpayOrderId": "order_test_5e87acfd0ae25e88",
+      "amount": 99,
+      "currency": "INR",
+      "status": "PAID",
+      "creditsAdded": 5,
+      "isVerified": true,
+      "createdAt": "2026-10-04T04:16:39.693Z",
+      "razorpayPaymentId": "pay_test_12345",
+      "razorpaySignature": "test_sig_order_test_5e87acfd0ae25e88_pay_test_12345",
+      "verifiedAt": "2026-10-04T04:16:43.409Z"
+    }
+  },
+  "creditTransactions": [
+    {
+      "id": "tx_seed_87a3eb24",
+      "userId": "usr_admin_96998b18",
+      "type": "ADMIN_ADJUSTMENT",
+      "amount": 100,
+      "balanceAfter": 100,
+      "notes": "Initial administrator credits",
+      "createdAt": "2026-10-04T04:16:16.748Z"
+    },
+    {
+      "id": "tx_demo_c9e12d22",
+      "userId": "usr_demo_066f8761",
+      "type": "PURCHASE",
+      "amount": 5,
+      "balanceAfter": 5,
+      "notes": "Welcome package: 5 initial test credits",
+      "createdAt": "2026-10-04T04:16:16.749Z"
+    },
+    {
+      "id": "ctx_7204887d-0ef0-47fe-8fca-37ac42a274bb",
+      "userId": "usr_demo_066f8761",
+      "type": "PURCHASE",
+      "amount": 5,
+      "balanceAfter": 10,
+      "referenceId": "pay_59ccd690-7ec7-4737-8102-7d6c106e927a",
+      "notes": "Purchased 5 leads via Razorpay payment pay_test_12345",
+      "createdAt": "2026-10-04T04:16:43.409Z"
+    },
+    {
+      "id": "ctx_2c332511-73e1-4fdb-9eeb-36c99fb67817",
+      "userId": "usr_demo_066f8761",
+      "type": "LEAD_DELIVERY",
+      "amount": -5,
+      "balanceAfter": 5,
+      "referenceId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "notes": "Delivered batch of 5 website opportunity leads for Dentist in Dallas",
+      "createdAt": "2026-10-04T04:16:56.764Z"
+    }
+  ],
+  "leads": {
+    "lead_7f89c3bd-fa13-4392-8041-0a6b249f3d52": {
+      "sourcePlaceId": "place_sim_dallas_1_1791087410733",
+      "businessName": "Dallas Premier Dentist Care",
+      "category": "Dentist",
+      "country": "USA",
+      "city": "Dallas",
+      "address": "104 Main Street, Dallas, USA",
+      "phone": "+1 (555) 234-8901",
+      "email": "Not publicly listed",
+      "website": null,
+      "websiteStatus": "NO_WEBSITE_FOUND",
+      "websiteCheckedAt": "2026-10-04T04:16:50.733Z",
+      "source": "Public Business Registry (Demo)",
+      "leadScore": "HIGH",
+      "verificationStatus": "VERIFIED",
+      "notes": "Official website not found in available business sources.",
+      "id": "lead_7f89c3bd-fa13-4392-8041-0a6b249f3d52",
+      "createdAt": "2026-10-04T04:16:50.733Z"
+    },
+    "lead_0b85bf12-eda4-4a6a-ac48-98362374209a": {
+      "sourcePlaceId": "place_sim_dallas_2_1791087410733",
+      "businessName": "Apex Family Dentist Associates",
+      "category": "Dentist",
+      "country": "USA",
+      "city": "Dallas",
+      "address": "420 Commerce Boulevard, Dallas, USA",
+      "phone": "+1 (555) 438-9120",
+      "email": "Not publicly listed",
+      "website": null,
+      "websiteStatus": "NO_WEBSITE_FOUND",
+      "websiteCheckedAt": "2026-10-04T04:16:50.733Z",
+      "source": "Public Business Registry (Demo)",
+      "leadScore": "HIGH",
+      "verificationStatus": "VERIFIED",
+      "notes": "Official website not found in available business sources.",
+      "id": "lead_0b85bf12-eda4-4a6a-ac48-98362374209a",
+      "createdAt": "2026-10-04T04:16:50.733Z"
+    },
+    "lead_02352ba5-ed8d-4fdf-aa0c-07d229cd0ed9": {
+      "sourcePlaceId": "place_sim_dallas_3_1791087410733",
+      "businessName": "Heritage Dentist Specialists",
+      "category": "Dentist",
+      "country": "USA",
+      "city": "Dallas",
+      "address": "88 Oak Ridge Way, Suite 12, Dallas, USA",
+      "phone": "+1 (555) 671-2299",
+      "email": "Not publicly listed",
+      "website": null,
+      "websiteStatus": "NO_WEBSITE_FOUND",
+      "websiteCheckedAt": "2026-10-04T04:16:50.734Z",
+      "source": "Public Business Registry (Demo)",
+      "leadScore": "HIGH",
+      "verificationStatus": "VERIFIED",
+      "notes": "Official website not found in available business sources.",
+      "id": "lead_02352ba5-ed8d-4fdf-aa0c-07d229cd0ed9",
+      "createdAt": "2026-10-04T04:16:50.734Z"
+    },
+    "lead_563f3152-cd89-482c-b129-c7f680daa9bd": {
+      "sourcePlaceId": "place_sim_dallas_4_1791087410733",
+      "businessName": "Dallas Metro Dentist Group",
+      "category": "Dentist",
+      "country": "USA",
+      "city": "Dallas",
+      "address": "1250 Central Ave, Dallas, USA",
+      "phone": "+1 (555) 890-4411",
+      "email": "Not publicly listed",
+      "website": null,
+      "websiteStatus": "NO_WEBSITE_FOUND",
+      "websiteCheckedAt": "2026-10-04T04:16:50.734Z",
+      "source": "Public Business Registry (Demo)",
+      "leadScore": "HIGH",
+      "verificationStatus": "VERIFIED",
+      "notes": "Official website not found in available business sources.",
+      "id": "lead_563f3152-cd89-482c-b129-c7f680daa9bd",
+      "createdAt": "2026-10-04T04:16:50.734Z"
+    },
+    "lead_ae644bea-f1ff-4acf-9e36-bcf08050617e": {
+      "sourcePlaceId": "place_sim_dallas_5_1791087410733",
+      "businessName": "Summit Dentist Studio",
+      "category": "Dentist",
+      "country": "USA",
+      "city": "Dallas",
+      "address": "305 West End Parkway, Dallas, USA",
+      "phone": "+1 (555) 912-7744",
+      "email": "Not publicly listed",
+      "website": null,
+      "websiteStatus": "NO_WEBSITE_FOUND",
+      "websiteCheckedAt": "2026-10-04T04:16:50.734Z",
+      "source": "Public Business Registry (Demo)",
+      "leadScore": "HIGH",
+      "verificationStatus": "VERIFIED",
+      "notes": "Official website not found in available business sources.",
+      "id": "lead_ae644bea-f1ff-4acf-9e36-bcf08050617e",
+      "createdAt": "2026-10-04T04:16:50.734Z"
+    }
+  },
+  "leadDeliveries": [
+    {
+      "id": "del_5773486d-821a-4797-b334-cf161e825ee9",
+      "batchId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "userId": "usr_demo_066f8761",
+      "leadId": "lead_7f89c3bd-fa13-4392-8041-0a6b249f3d52",
+      "searchJobId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "deliveredAt": "2026-10-04T04:16:56.764Z"
+    },
+    {
+      "id": "del_6b749b0d-7721-42fa-9609-6c0536953313",
+      "batchId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "userId": "usr_demo_066f8761",
+      "leadId": "lead_0b85bf12-eda4-4a6a-ac48-98362374209a",
+      "searchJobId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "deliveredAt": "2026-10-04T04:16:56.764Z"
+    },
+    {
+      "id": "del_79864a89-55c7-4ef8-99cd-1aa04badac5e",
+      "batchId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "userId": "usr_demo_066f8761",
+      "leadId": "lead_02352ba5-ed8d-4fdf-aa0c-07d229cd0ed9",
+      "searchJobId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "deliveredAt": "2026-10-04T04:16:56.764Z"
+    },
+    {
+      "id": "del_7532e4c9-52cd-4cc6-b3c9-57a93f26a989",
+      "batchId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "userId": "usr_demo_066f8761",
+      "leadId": "lead_563f3152-cd89-482c-b129-c7f680daa9bd",
+      "searchJobId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "deliveredAt": "2026-10-04T04:16:56.764Z"
+    },
+    {
+      "id": "del_8814fa9a-1bc5-4feb-8d43-c782057caf05",
+      "batchId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "userId": "usr_demo_066f8761",
+      "leadId": "lead_ae644bea-f1ff-4acf-9e36-bcf08050617e",
+      "searchJobId": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "deliveredAt": "2026-10-04T04:16:56.764Z"
+    }
+  ],
+  "searchJobs": {
+    "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf": {
+      "id": "job_ae35abc6-83aa-4645-aa31-35ee38c1dabf",
+      "userId": "usr_demo_066f8761",
+      "country": "USA",
+      "city": "Dallas",
+      "category": "Dentist",
+      "websiteStatusFilter": "NO_WEBSITE_FOUND",
+      "requestedLeads": 5,
+      "status": "READY",
+      "progressPercentage": 100,
+      "progressMessage": "Found 5 verified website opportunity leads ready to unlock.",
+      "logs": [
+        "[2026-10-04T04:16:50.732Z] Search queued for Dentist in Dallas, USA",
+        "[2026-10-04T04:16:50.732Z] Starting business discovery. Mode: Simulated Registry Mode (API key not configured)",
+        "[2026-10-04T04:16:50.732Z] Querying: \"Dentist in Dallas USA\"",
+        "[2026-10-04T04:16:50.733Z] Querying: \"Dentist clinics or services Dallas\"",
+        "[2026-10-04T04:16:50.733Z] Querying: \"best Dentist in Dallas\"",
+        "[2026-10-04T04:16:50.733Z] Discovered 7 unique candidates. Commencing server-side website verification.",
+        "[2026-10-04T04:16:50.734Z] Qualified 5 leads matching criteria (Target: 5).",
+        "[2026-10-04T04:16:50.735Z] Search job completed successfully. Ready for user delivery.",
+        "[2026-10-04T04:16:56.764Z] Delivered 5 leads to user. Deducted 5 credits. Balance now: 5"
+      ],
+      "totalCandidatesFound": 7,
+      "qualifiedLeadsFound": 5,
+      "deliveredLeadIds": [
+        "lead_7f89c3bd-fa13-4392-8041-0a6b249f3d52",
+        "lead_0b85bf12-eda4-4a6a-ac48-98362374209a",
+        "lead_02352ba5-ed8d-4fdf-aa0c-07d229cd0ed9",
+        "lead_563f3152-cd89-482c-b129-c7f680daa9bd",
+        "lead_ae644bea-f1ff-4acf-9e36-bcf08050617e"
+      ],
+      "creditsDeducted": 5,
+      "createdAt": "2026-10-04T04:16:50.732Z",
+      "completedAt": "2026-10-04T04:16:50.735Z"
+    }
+  },
+  "placesCache": {},
+  "settings": {
+    "pricing": {
+      "price": 99,
+      "currency": "INR",
+      "currencySymbol": "₹",
+      "creditsPerPack": 5
+    },
+    "policy": {
+      "allowLeadReuseAcrossUsers": true,
+      "strictExact5Rule": true,
+      "minLeadScore": "MEDIUM",
+      "maxApiSearchQueries": 4,
+      "requestTimeoutMs": 15000
+    },
+    "stats": {
+      "totalApiRequests": 0,
+      "failedSearches": 0
+    }
+  }
+}

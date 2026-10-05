@@ -1,0 +1,7 @@
+{
+  "name": "LeadHunter AI",
+  "description": "Credit-based SaaS lead generation platform finding businesses that need a website with server-side payment verification and Places intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
