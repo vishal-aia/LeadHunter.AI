@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'dashboard', label: 'Dashboard', icon: Globe2 },
     { id: 'find-leads', label: 'Find Leads', icon: Search },
     { id: 'my-leads', label: 'My Leads', icon: FolderHeart },
-    { id: 'payments', label: 'Payments & Pricing', icon: CreditCard },
+    { id: 'payments', label: 'Pricing & Plans', icon: CreditCard },
   ];
 
   const handleNavClick = (tabId: string) => {

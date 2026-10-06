@@ -181,7 +181,7 @@ export default function App() {
           <span>•</span>
           <button onClick={() => setActiveTab('my-leads')} className="hover:text-white">My Clients</button>
           <span>•</span>
-          <button onClick={() => setActiveTab('payments')} className="hover:text-white">Pricing & Ledger</button>
+          <button onClick={() => setActiveTab('payments')} className="hover:text-white">Pricing & Plans</button>
         </div>
         <p className="max-w-xl mx-auto text-[11px] text-slate-600">
           LeadHunter AI • Credit-Based Website Opportunity Lead Generation. All lead data collected from authorized public business sources.

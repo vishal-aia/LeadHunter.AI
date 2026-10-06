@@ -182,7 +182,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
             <p className="text-xs text-slate-400 mt-1">Access delivered leads, call contacts, and export to CSV.</p>
           </div>
 
-          {/* Action 4: PAYMENT HISTORY */}
+          {/* Action 4: PRICING & PACKAGES */}
           <div
             onClick={() => onNavigate('payments')}
             className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-purple-500/50 hover:bg-slate-850 cursor-pointer transition group"
@@ -193,44 +193,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               </div>
               <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition" />
             </div>
-            <h3 className="font-bold text-white text-sm">PAYMENT HISTORY</h3>
-            <p className="text-xs text-slate-400 mt-1">Check verified orders, signatures, and credit ledger.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Account Info Details Card */}
-      <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
-        <h3 className="text-sm font-bold text-slate-200 mb-4 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Security & Account Profile</span>
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-          <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
-            <span className="text-slate-400 block text-[11px]">User Account ID</span>
-            <span className="font-mono text-slate-200 truncate block mt-0.5">{user.id}</span>
-          </div>
-
-          <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
-            <span className="text-slate-400 block text-[11px]">Registered Email</span>
-            <span className="font-medium text-slate-200 truncate block mt-0.5">{user.email}</span>
-          </div>
-
-          <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
-            <span className="text-slate-400 block text-[11px]">Member Since</span>
-            <span className="font-medium text-slate-200 block mt-0.5">
-              {new Date(user.createdAt).toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}
-            </span>
-          </div>
-
-          <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
-            <span className="text-slate-400 block text-[11px]">Payment Rule</span>
-            <span className="font-semibold text-emerald-400 block mt-0.5">1 Payment = 1 Batch (Zero Free Access)</span>
+            <h3 className="font-bold text-white text-sm">PRICING & PACKAGES</h3>
+            <p className="text-xs text-slate-400 mt-1">Affordable pay-as-you-go packages starting from ₹99.</p>
           </div>
         </div>
       </div>
