@@ -99,23 +99,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <>
-              {/* Credit Badge */}
-              <div
-                onClick={() => handleNavClick('payments')}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold cursor-pointer hover:bg-emerald-500/20 transition-colors shadow-sm"
-                title="Available Lead Credits"
-              >
-                <Coins className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                <span>{user.credits} Credits</span>
-              </div>
-
               {/* Quick Buy CTA */}
               <button
                 onClick={onOpenBuyModal}
                 className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-md shadow-emerald-500/20 transition-all active:scale-95"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Buy 5 Leads</span>
+                <span>Unlock 5 Leads (₹99)</span>
               </button>
 
               {/* Account Dropdown */}
@@ -185,15 +175,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Hamburger Button */}
         <div className="flex md:hidden items-center gap-2">
-          {user && (
-            <button
-              onClick={() => handleNavClick('payments')}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold"
-            >
-              <Coins className="w-3 h-3 text-emerald-400" />
-              <span>{user.credits}</span>
-            </button>
-          )}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white"

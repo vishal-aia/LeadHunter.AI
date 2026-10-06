@@ -144,32 +144,22 @@ export default function App() {
         )}
       </main>
 
-      {/* Mobile Sticky Payment & Action Footer (Section 27) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 p-3 flex items-center justify-between shadow-2xl">
-        <div className="flex items-center gap-2">
-          <Coins className="w-4 h-4 text-emerald-400" />
-          <div className="text-xs">
-            <span className="text-[10px] text-slate-400 block">Balance</span>
-            <span className="font-extrabold text-white">{user?.credits || 0} Credits</span>
-          </div>
-        </div>
+      {/* Mobile Sticky Action Footer */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 p-3 flex items-center gap-3 shadow-2xl">
+        <button
+          onClick={() => setActiveTab('find-leads')}
+          className="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold text-center transition"
+        >
+          Find Clients
+        </button>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setActiveTab('find-leads')}
-            className="px-3.5 py-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-semibold"
-          >
-            Find Leads
-          </button>
-
-          <button
-            onClick={handleOpenBuyModal}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-500/20"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Buy 5 Leads (₹99)</span>
-          </button>
-        </div>
+        <button
+          onClick={handleOpenBuyModal}
+          className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 transition"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Unlock 5 Clients (₹99)</span>
+        </button>
       </div>
 
       {/* Footer */}

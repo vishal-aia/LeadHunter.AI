@@ -250,7 +250,7 @@ Lead Score: ${lead.leadScore}`;
                 className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-md transition flex items-center gap-1.5"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Buy Credits</span>
+                <span>Unlock More Clients</span>
               </button>
             </div>
           )}
