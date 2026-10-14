@@ -32,19 +32,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                Lead Agency Member
-              </span>
-              <span className="text-slate-400 text-xs flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-slate-400" />
-                {user.country}
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Verified Business Opportunities
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Welcome back, <span className="text-indigo-300">{user.name}</span>
+              Client Acquisition <span className="text-emerald-400">Dashboard</span>
             </h1>
             <p className="text-slate-300 text-sm mt-1 max-w-xl">
-              Discover local businesses with missing or non-functional websites, verify public phone numbers, and unlock high-converting web design clients.
+              Discover local businesses with missing or non-functional websites, get verified direct phone numbers, and unlock high-converting web design clients.
             </p>
           </div>
 
@@ -54,7 +50,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               className="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20 active:scale-95 transition-all flex items-center gap-2 shrink-0"
             >
               <Sparkles className="w-4 h-4" />
-              <span>BUY 5 LEADS (₹99)</span>
+              <span>UNLOCK 5 CLIENTS (₹99)</span>
             </button>
 
             <button

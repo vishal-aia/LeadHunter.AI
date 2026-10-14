@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, SystemStatus } from '../types';
 import { api } from '../api';
+import { safeStorage } from '../utils/storage';
 import {
   CreditCard,
   Sparkles,
@@ -30,7 +31,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [customerPhone, setCustomerPhone] = useState<string>(() => {
-    return localStorage.getItem('leadhunter_user_phone') || '';
+    return safeStorage.getItem('leadhunter_user_phone') || '';
   });
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -61,12 +62,11 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
   };
 
   const handleBuyCredits = async (pkgToBuy = selectedPack) => {
-    if (!user) return;
     setIsProcessing(true);
     setStatusMessage(null);
 
     if (customerPhone) {
-      localStorage.setItem('leadhunter_user_phone', customerPhone);
+      safeStorage.setItem('leadhunter_user_phone', customerPhone);
     }
 
     try {
@@ -93,8 +93,8 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
           name: 'LeadHunter AI',
           description: `Unlock ${pkgToBuy.leads} Verified Clients Batch`,
           prefill: {
-            name: user.name || 'Valued Client',
-            email: user.email || 'client@leadhunter.ai',
+            name: user?.name || 'Valued Client',
+            email: user?.email || 'client@leadhunter.ai',
             contact: cleanPhone.length >= 10 ? cleanPhone : undefined,
           },
           theme: { color: '#059669' },
@@ -120,7 +120,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
 
               setStatusMessage({
                 type: 'success',
-                text: `🎉 Payment of ₹${pkgToBuy.price} verified! Successfully added ${pkgToBuy.leads} lead credits to your account.`,
+                text: `🎉 Payment of ₹${pkgToBuy.price} verified! Successfully unlocked ${pkgToBuy.leads} verified clients. They are permanently saved in your account.`,
               });
 
               onRefreshUser();
@@ -317,7 +317,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
             onChange={(e) => {
               const val = e.target.value.replace(/\D/g, '');
               setCustomerPhone(val);
-              localStorage.setItem('leadhunter_user_phone', val);
+              safeStorage.setItem('leadhunter_user_phone', val);
             }}
             placeholder="Enter 10-digit mobile number"
             className="w-full pl-20 pr-4 py-3 rounded-2xl bg-slate-950 border border-slate-800 text-white text-xs font-mono tracking-wider focus:ring-2 focus:ring-emerald-500/50"
@@ -367,9 +367,9 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 space-y-1.5">
-            <h5 className="font-bold text-slate-200">How do client credits work?</h5>
+            <h5 className="font-bold text-slate-200">How does client batch unlocking work?</h5>
             <p className="text-slate-400 leading-relaxed">
-              1 credit unlocks 1 full business contact profile with verified phone number, address, business category, and pitch script.
+              When you unlock a batch (e.g. 5 clients for ₹99), you receive full verified business profiles with direct phone numbers, business address, and pitch scripts. They are permanently saved in your account.
             </p>
           </div>
 

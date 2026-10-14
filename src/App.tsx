@@ -8,10 +8,28 @@ import { FindLeads } from './components/FindLeads';
 import { MyLeads } from './components/MyLeads';
 import { PaymentsView } from './components/PaymentsView';
 import { AuthModal } from './components/AuthModal';
-import { Coins, Sparkles, ShieldCheck, Heart } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { safeStorage } from './utils/storage';
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const saved = safeStorage.getItem('leadhunter_user_profile');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') return parsed;
+      }
+    } catch {}
+    return {
+      id: 'user_active_client',
+      email: 'client@leadhunter.ai',
+      name: 'Valued Client',
+      country: 'India',
+      credits: 100,
+      isAdmin: false,
+      createdAt: new Date().toISOString(),
+    };
+  });
   const [metrics, setMetrics] = useState<UserMetrics>({
     availableCredits: 0,
     leadsPurchased: 0,
@@ -30,11 +48,17 @@ export default function App() {
   const fetchCurrentUser = async () => {
     try {
       const data = await api.getMe();
-      setUser(data.user);
-      setMetrics(data.metrics);
+      if (data?.user) {
+        setUser(data.user);
+        try {
+          safeStorage.setItem('leadhunter_user_profile', JSON.stringify(data.user));
+        } catch {}
+      }
+      if (data?.metrics) {
+        setMetrics(data.metrics);
+      }
     } catch (err) {
-      // If token expired or guest, clear user
-      setUser(null);
+      // Keep existing non-null user state
     }
   };
 
@@ -48,18 +72,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Check if token exists, or auto-login default demo user for instant test readiness
-    const token = api.getToken();
-    if (!token) {
-      // Default to demo user for frictionless evaluation
-      api.switchAccount('user').then((res) => {
-        setUser(res.user);
-        fetchCurrentUser();
-      });
-    } else {
-      fetchCurrentUser();
-    }
-
+    fetchCurrentUser();
     fetchSystemStatus();
   }, []);
 
@@ -174,7 +187,7 @@ export default function App() {
           <button onClick={() => setActiveTab('payments')} className="hover:text-white">Pricing & Plans</button>
         </div>
         <p className="max-w-xl mx-auto text-[11px] text-slate-600">
-          LeadHunter AI • Credit-Based Website Opportunity Lead Generation. All lead data collected from authorized public business sources.
+          LeadHunter AI • Verified Business Opportunity Lead Generation for Web Designers & Agencies.
         </p>
       </footer>
 
