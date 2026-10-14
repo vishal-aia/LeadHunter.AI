@@ -8,7 +8,6 @@ import { FindLeads } from './components/FindLeads';
 import { MyLeads } from './components/MyLeads';
 import { PaymentsView } from './components/PaymentsView';
 import { AuthModal } from './components/AuthModal';
-import { Sparkles } from 'lucide-react';
 import { safeStorage } from './utils/storage';
 
 export default function App() {
@@ -113,7 +112,7 @@ export default function App() {
       />
 
       {/* Main View Router */}
-      <main className="flex-1 pb-16">
+      <main className="flex-1 pb-8">
         {activeTab === 'dashboard' && (
           <>
             <Hero
@@ -156,24 +155,6 @@ export default function App() {
           />
         )}
       </main>
-
-      {/* Mobile Sticky Action Footer */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 p-3 flex items-center gap-3 shadow-2xl">
-        <button
-          onClick={() => setActiveTab('find-leads')}
-          className="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold text-center transition"
-        >
-          Find Clients
-        </button>
-
-        <button
-          onClick={handleOpenBuyModal}
-          className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 transition"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Unlock 5 Clients (₹99)</span>
-        </button>
-      </div>
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950/80 py-8 px-4 text-center text-xs text-slate-500 space-y-2">

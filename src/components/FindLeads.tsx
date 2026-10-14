@@ -557,58 +557,84 @@ Website Status: Official Website Not Found (High Opportunity)`;
             <div className="flex items-center gap-2">
               <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
               <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                Opportunity Preview
+                Opportunity Preview (Identity & Location Protected)
               </span>
             </div>
             <h3 className="text-lg font-extrabold text-white mt-0.5">
               Verified {selectedCategory.label} in {city} (No Official Website Found)
             </h3>
+            <p className="text-xs text-amber-400/90 mt-1 flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+              <span>Direct client name, exact address & contact are locked to prevent bypass. Full details unlock instantly after payment.</span>
+            </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-400">
+          <div className="flex items-center gap-2 text-xs text-slate-400 shrink-0">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Audited Against Public Business Registries</span>
+            <span>Audited Public Registry Data</span>
           </div>
         </div>
 
-        {/* 4 Preview Cards */}
+        {/* 4 Preview Cards with Strict Identity Protection */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {(proofData?.samples || []).slice(0, 4).map((sample, i) => (
             <div
               key={sample.id || i}
-              className="p-4 rounded-2xl bg-slate-950 border border-slate-800/90 space-y-3 hover:border-slate-700 transition flex flex-col justify-between"
+              className="p-4 rounded-2xl bg-slate-950 border border-slate-800/90 space-y-3 hover:border-slate-700 transition flex flex-col justify-between relative overflow-hidden"
             >
               <div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-extrabold shadow-sm shrink-0">
-                    {sample.businessName.charAt(0)}
+                    <Lock className="w-4 h-4 text-white" />
                   </div>
                   <span className="text-[9px] font-black px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 uppercase">
                     HIGH NEED
                   </span>
                 </div>
 
-                <h4 className="font-bold text-xs text-white mt-2 leading-snug line-clamp-1">
-                  {sample.businessName}
-                </h4>
+                {/* Masked Business Name */}
+                <div className="mt-2.5">
+                  <span className="text-[9px] uppercase font-bold text-indigo-400 flex items-center gap-1">
+                    <Lock className="w-2.5 h-2.5" /> Client Name (Protected)
+                  </span>
+                  <h4 className="font-bold text-xs text-white mt-0.5 leading-snug line-clamp-1">
+                    {sample.businessName}
+                  </h4>
+                </div>
 
-                <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-1 truncate">
-                  <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
-                  <span className="truncate">{sample.address}</span>
-                </p>
+                {/* Masked Address & Exact Location Locked */}
+                <div className="mt-2">
+                  <span className="text-[9px] uppercase font-bold text-amber-400/90 flex items-center gap-1">
+                    <MapPin className="w-2.5 h-2.5" /> Location (Locked)
+                  </span>
+                  <p className="text-[11px] text-slate-300 font-medium mt-0.5 truncate flex items-center gap-1">
+                    <span>•••••••• Area, {city}</span>
+                  </p>
+                  <span className="text-[10px] text-amber-400/80 font-semibold block mt-0.5">
+                    (Exact Address Hidden Until Payment)
+                  </span>
+                </div>
 
+                {/* Masked Phone Number */}
                 <div className="mt-2.5 p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-[11px]">
-                  <div className="flex items-center gap-1.5 text-slate-300 font-mono font-bold">
-                    <Phone className="w-3 h-3 text-emerald-400" />
-                    <span>{sample.maskedPhone}</span>
+                  <div className="flex items-center gap-1.5 text-slate-300 font-mono text-xs">
+                    <Phone className="w-3 h-3 text-emerald-400 shrink-0" />
+                    <span>{sample.maskedPhone || '+91 98••• ••••• [Locked]'}</span>
                   </div>
-                  <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span className="text-[10px] text-amber-400 font-bold flex items-center gap-0.5">
+                    <Lock className="w-3 h-3" /> Locked
+                  </span>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
-                <span className="text-slate-500">Website:</span>
-                <span className="text-rose-400 font-bold">Not Found</span>
+              <div className="pt-2 border-t border-slate-800/80 space-y-1 text-[10px]">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Website:</span>
+                  <span className="text-rose-400 font-bold">Not Found</span>
+                </div>
+                <p className="text-[9px] text-slate-500 leading-tight">
+                  🔒 Full Name, Address & Number will unlock after payment
+                </p>
               </div>
             </div>
           ))}
@@ -617,7 +643,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
         {/* CTA Bar */}
         <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-800">
           <p className="text-xs text-slate-400">
-            Click to unlock full unmasked phone numbers, direct WhatsApp links, and permanent lead ownership.
+            Click to unlock full unmasked phone numbers, exact addresses, and direct WhatsApp links.
           </p>
           <button
             type="button"

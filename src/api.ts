@@ -233,13 +233,28 @@ export const api = {
         `Apex ${category} Services`,
         `Metro ${category} Center`,
       ];
+
+      const maskName = (name: string) => {
+        const words = name.split(' ');
+        return words
+          .map((w) => {
+            const lower = w.toLowerCase();
+            const generic = ['clinic', 'hospital', 'dental', 'gym', 'fitness', 'salon', 'spa', 'studio', 'cafe', 'restaurant', 'properties', 'realtors', 'academy', 'classes', 'advocate', 'law', 'workshop', 'motors', 'bakery', 'patisserie', 'services', 'centre', 'center', 'lounge', 'care', 'diner', 'associates', 'interiors', 'tuitions', 'patisserie', 'works', 'club'];
+            if (generic.includes(lower)) return w;
+            if (w.length <= 2) return w.charAt(0) + '•';
+            if (w.length <= 4) return w.charAt(0) + '••' + w.charAt(w.length - 1);
+            return w.slice(0, 2) + '••••' + (w.length > 5 ? w.charAt(w.length - 1) : '');
+          })
+          .join(' ');
+      };
+
       return {
         totalAvailable: 45,
         samples: samplesList.map((name, i) => ({
           id: `proof_${i}_${Date.now()}`,
-          businessName: `${name} (${cityClean})`,
-          address: `Main Commercial Complex, ${cityClean}`,
-          maskedPhone: `+91 98${Math.floor(1000 + Math.random() * 8999)} XXXXX`,
+          businessName: maskName(name),
+          address: `•••••••• Commercial Zone, ${cityClean} [Exact Address Locked 🔒]`,
+          maskedPhone: `+91 98••• ••••• [Locked]`,
           websiteStatus: 'NO_WEBSITE_FOUND' as const,
           leadScore: 'HIGH' as const,
           verificationBadge: 'Verified No Website',

@@ -268,6 +268,26 @@ function getCuratedCandidateBusinesses(
   return places;
 }
 
+function maskBusinessName(name: string, category: string): string {
+  if (!name) return `Verified ${category} Client [Protected]`;
+  const words = name.trim().split(/\s+/);
+  return words
+    .map((word) => {
+      const lower = word.toLowerCase();
+      const genericWords = [
+        'clinic', 'hospital', 'dental', 'gym', 'fitness', 'salon', 'spa', 'studio',
+        'cafe', 'restaurant', 'properties', 'realtors', 'academy', 'classes', 'advocate',
+        'law', 'workshop', 'motors', 'bakery', 'services', 'centre', 'center', 'lounge',
+        'care', 'diner', 'associates', 'interiors', 'tuitions', 'patisserie', 'works', 'club'
+      ];
+      if (genericWords.includes(lower)) return word;
+      if (word.length <= 2) return word.charAt(0) + '•';
+      if (word.length <= 4) return word.charAt(0) + '••' + word.charAt(word.length - 1);
+      return word.slice(0, 2) + '••••' + (word.length > 5 ? word.charAt(word.length - 1) : '');
+    })
+    .join(' ');
+}
+
 export function getProofPreview(category: string, city: string, country: string) {
   const candidates = getCuratedCandidateBusinesses(category, city, country);
   const opportunities = candidates.filter((c) => !c.websiteUri || c.websiteUri.includes('inactive'));
@@ -276,12 +296,16 @@ export function getProofPreview(category: string, city: string, country: string)
     totalAvailable: Math.max(28, opportunities.length + 14),
     samples: opportunities.slice(0, 4).map((c, idx) => {
       const phoneRaw = c.nationalPhoneNumber || '+91 98200 00000';
-      // Mask phone number for proof preview (e.g. +91 98201 •••••)
-      const maskedPhone = phoneRaw.slice(0, phoneRaw.length - 5) + '•••••';
+      const cleanPhone = phoneRaw.replace(/[^0-9+]/g, '');
+      const prefix = cleanPhone.slice(0, 5) || '+91 9';
+      const maskedPhone = `${prefix} ••••• [Locked]`;
+      const rawName = c.displayName?.text || `${category} Specialist`;
+      const maskedName = maskBusinessName(rawName, category);
+
       return {
         id: `proof_${idx}`,
-        businessName: c.displayName?.text || `${category} Specialist`,
-        address: c.formattedAddress?.split(',')[0] + `, ${city}`,
+        businessName: maskedName,
+        address: `•••••••• Commercial Zone, ${city} [Exact Address Locked 🔒]`,
         maskedPhone,
         websiteStatus: 'NO_WEBSITE_FOUND' as WebsiteStatus,
         leadScore: 'HIGH' as LeadScore,
