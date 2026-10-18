@@ -64,9 +64,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="font-extrabold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-indigo-300">
                 LeadHunter<span className="text-emerald-400">.AI</span>
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                SaaS
-              </span>
             </div>
             <p className="text-[11px] text-slate-400 hidden sm:block">Find businesses that need a website</p>
           </div>
@@ -107,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-black shadow-md shadow-emerald-500/20 transition-all active:scale-95"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Unlock 5 Clients (₹99)</span>
+            <span>Unlock Clients (From ₹99)</span>
           </button>
         </div>
 
@@ -151,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold rounded-lg text-sm flex items-center justify-center gap-2"
             >
               <Sparkles className="w-4 h-4" />
-              Buy 5 Leads (₹99)
+              Unlock Clients (From ₹99)
             </button>
 
             {user ? (

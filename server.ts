@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
-import { db, User, CLIENT_PACKAGES } from './server/db.js';
+import { db, User, CLIENT_PACKAGES, DOMESTIC_PACKAGES, INTERNATIONAL_PACKAGES } from './server/db.js';
 import { createOrder, verifySignature, verifyWebhookSignature, getRazorpayCredentials } from './server/razorpay.js';
 import { parseNaturalLanguageCommand } from './server/gemini.js';
 import { executeSearchJob, getProofPreview } from './server/places.js';
@@ -51,14 +51,18 @@ function authMiddleware(req: Request, res: Response, next: NextFunction): void {
 // ----------------------------------------------------
 // 1. SYSTEM & CONFIG STATUS APIS (Airtight - Zero Leakage)
 // ----------------------------------------------------
-app.get('/api/system/status', (_req: Request, res: Response) => {
+app.get('/api/system/status', (req: Request, res: Response) => {
   const razorpay = getRazorpayCredentials();
+  const country = (req.query.country as string) || '';
+  const isIntl = country && country.toLowerCase() !== 'india';
 
   res.json({
     appName: 'LeadHunter AI',
     tagline: 'Find businesses that need a website.',
     razorpayKeyId: razorpay.keyId,
-    packages: CLIENT_PACKAGES,
+    packages: isIntl ? INTERNATIONAL_PACKAGES : DOMESTIC_PACKAGES,
+    domesticPackages: DOMESTIC_PACKAGES,
+    internationalPackages: INTERNATIONAL_PACKAGES,
   });
 });
 
@@ -197,9 +201,25 @@ app.post('/api/auth/switch-account', (_req: Request, res: Response) => {
 // ----------------------------------------------------
 app.post('/api/payments/create-order', authMiddleware, async (req: Request, res: Response) => {
   const user: User = (req as any).user;
-  const { packageId, leadCount } = req.body;
-  const pkg =
-    CLIENT_PACKAGES.find((p) => p.id === packageId || p.leads === Number(leadCount)) || CLIENT_PACKAGES[0];
+  const { packageId, leadCount, country } = req.body;
+  const isInternational = Boolean(country && country.trim().toLowerCase() !== 'india');
+  const targetPackages = isInternational ? INTERNATIONAL_PACKAGES : DOMESTIC_PACKAGES;
+
+  let pkg = CLIENT_PACKAGES.find((p) => p.id === packageId);
+  if (isInternational) {
+    if (pkg && !pkg.id.includes('intl')) {
+      pkg = INTERNATIONAL_PACKAGES.find((p) => p.leads === pkg?.leads) || INTERNATIONAL_PACKAGES[0];
+    } else if (!pkg) {
+      pkg = targetPackages.find((p) => p.leads === Number(leadCount)) || targetPackages[0];
+    }
+  } else {
+    if (pkg && pkg.id.includes('intl')) {
+      pkg = DOMESTIC_PACKAGES.find((p) => p.leads === pkg?.leads) || DOMESTIC_PACKAGES[0];
+    } else if (!pkg) {
+      pkg = targetPackages.find((p) => p.leads === Number(leadCount)) || targetPackages[0];
+    }
+  }
+
   const price = pkg.price;
   const currency = pkg.currency;
   const leadsToGrant = pkg.leads;
@@ -210,6 +230,7 @@ app.post('/api/payments/create-order', authMiddleware, async (req: Request, res:
       userEmail: user.email,
       packageId: pkg.id,
       leadsCount: String(leadsToGrant),
+      country: country || (isInternational ? 'International' : 'India'),
     });
 
     // Record pending payment in database

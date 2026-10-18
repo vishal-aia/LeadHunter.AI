@@ -35,13 +35,33 @@ export interface ClientPackage {
   badge?: string;
   title: string;
   savings?: string;
+  region?: 'domestic' | 'international';
+  desc?: string;
 }
 
-export const CLIENT_PACKAGES: ClientPackage[] = [
-  { id: 'pack_5', leads: 5, price: 99, currency: 'INR', title: '5 Verified Clients', savings: '₹19.8 / client' },
-  { id: 'pack_10', leads: 10, price: 170, currency: 'INR', badge: 'MOST POPULAR', title: '10 Verified Clients', savings: 'Save ₹28 • ₹17 / client' },
-  { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Verified Clients', savings: 'Save ₹96 • ₹15 / client' },
+export const DOMESTIC_PACKAGES: ClientPackage[] = [
+  { id: 'pack_5', leads: 5, price: 99, currency: 'INR', title: '5 Verified Clients', savings: '₹19.8 / client', region: 'domestic', desc: 'Ideal for getting your first web design clients in India' },
+  { id: 'pack_10', leads: 10, price: 170, currency: 'INR', badge: 'MOST POPULAR', title: '10 Verified Clients', savings: 'Save ₹28 • ₹17 / client', region: 'domestic', desc: 'Best for agencies running active weekly outreach in India' },
+  { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Verified Clients', savings: 'Save ₹96 • ₹15 / client', region: 'domestic', desc: 'Maximum value for freelancers & agencies in India' },
 ];
+
+export const INTERNATIONAL_PACKAGES: ClientPackage[] = [
+  { id: 'pack_intl_5', leads: 5, price: 499, currency: 'INR', title: '5 International Clients', savings: '₹99.8 / client', region: 'international', desc: 'High-ticket international business clients (US, UK, Canada, Australia, UAE)' },
+  { id: 'pack_intl_10', leads: 10, price: 899, currency: 'INR', badge: 'MOST POPULAR', title: '10 International Clients', savings: 'Save ₹99 • ₹89.9 / client', region: 'international', desc: 'Scale high-converting web design pitches in global markets' },
+  { id: 'pack_intl_20', leads: 20, price: 1399, currency: 'INR', badge: 'BEST VALUE', title: '20 International Clients', savings: 'Save ₹599 • ₹69.95 / client', region: 'international', desc: 'Maximum ROI for global outreach & high-ticket web projects' },
+];
+
+export const CLIENT_PACKAGES: ClientPackage[] = [
+  ...DOMESTIC_PACKAGES,
+  ...INTERNATIONAL_PACKAGES,
+];
+
+export function getPackagesForCountry(country?: string): ClientPackage[] {
+  if (country && country.trim().toLowerCase() !== 'india') {
+    return INTERNATIONAL_PACKAGES;
+  }
+  return DOMESTIC_PACKAGES;
+}
 
 export interface PaymentRecord {
   id: string;

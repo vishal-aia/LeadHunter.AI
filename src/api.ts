@@ -122,7 +122,7 @@ export const api = {
   },
 
   // Payments
-  async createPaymentOrder(packageId?: string, leadCount?: number) {
+  async createPaymentOrder(packageId?: string, leadCount?: number, country?: string) {
     try {
       return await this.request<{
         orderId: string;
@@ -140,11 +140,37 @@ export const api = {
         };
       }>('/api/payments/create-order', {
         method: 'POST',
-        body: JSON.stringify({ packageId, leadCount }),
+        body: JSON.stringify({ packageId, leadCount, country }),
       });
     } catch {
-      const price = packageId === 'pack_20' ? 300 : packageId === 'pack_10' ? 170 : 99;
-      const leads = packageId === 'pack_20' ? 20 : packageId === 'pack_10' ? 10 : 5;
+      const isIntl = country && country.trim().toLowerCase() !== 'india';
+      let price = 99;
+      let leads = 5;
+
+      if (isIntl) {
+        if (packageId === 'pack_intl_20' || packageId === 'pack_20' || leadCount === 20) {
+          price = 1399;
+          leads = 20;
+        } else if (packageId === 'pack_intl_10' || packageId === 'pack_10' || leadCount === 10) {
+          price = 899;
+          leads = 10;
+        } else {
+          price = 499;
+          leads = 5;
+        }
+      } else {
+        if (packageId === 'pack_20' || leadCount === 20) {
+          price = 300;
+          leads = 20;
+        } else if (packageId === 'pack_10' || leadCount === 10) {
+          price = 170;
+          leads = 10;
+        } else {
+          price = 99;
+          leads = 5;
+        }
+      }
+
       return {
         orderId: 'order_live_' + Date.now(),
         amount: price * 100,
@@ -152,8 +178,8 @@ export const api = {
         keyId: 'rzp_live_TkBGoMQgYzEq05',
         isTestMode: false,
         product: {
-          id: packageId || 'pack_5',
-          name: `${leads} Verified Clients Batch`,
+          id: packageId || (isIntl ? 'pack_intl_5' : 'pack_5'),
+          name: `${leads} Verified ${isIntl ? 'International ' : ''}Clients Batch`,
           credits: leads,
           price,
           currency: 'INR',

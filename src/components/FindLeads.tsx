@@ -83,13 +83,29 @@ export const FindLeads: React.FC<FindLeadsProps> = ({
   };
   const [city, setCity] = useState('Mumbai');
 
-  // Exact Packages
-  const packages: ClientPackage[] = [
-    { id: 'pack_5', leads: 5, price: 99, currency: 'INR', title: '5 Clients', savings: '₹19.8 / client' },
-    { id: 'pack_10', leads: 10, price: 170, currency: 'INR', badge: 'MOST POPULAR', title: '10 Clients', savings: 'Save ₹28 • ₹17 / client' },
-    { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Clients', savings: 'Save ₹96 • ₹15 / client' },
-  ];
+  // Exact Packages per Country (India: 99/170/300, Videsh / International: 499/899/1399)
+  const isSelectedCountryIndia = selectedCountry.name === 'India';
+  const packages: ClientPackage[] = isSelectedCountryIndia
+    ? [
+        { id: 'pack_5', leads: 5, price: 99, currency: 'INR', title: '5 Clients', savings: '₹19.8 / client' },
+        { id: 'pack_10', leads: 10, price: 170, currency: 'INR', badge: 'MOST POPULAR', title: '10 Clients', savings: 'Save ₹28 • ₹17 / client' },
+        { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Clients', savings: 'Save ₹96 • ₹15 / client' },
+      ]
+    : [
+        { id: 'pack_intl_5', leads: 5, price: 499, currency: 'INR', title: '5 Clients', savings: '₹99.8 / client' },
+        { id: 'pack_intl_10', leads: 10, price: 899, currency: 'INR', badge: 'MOST POPULAR', title: '10 Clients', savings: 'Save ₹99 • ₹89.9 / client' },
+        { id: 'pack_intl_20', leads: 20, price: 1399, currency: 'INR', badge: 'BEST VALUE', title: '20 Clients', savings: 'Save ₹599 • ₹69.95 / client' },
+      ];
+
   const [selectedPackage, setSelectedPackage] = useState<ClientPackage>(packages[0]);
+
+  // Synchronize package selection when country switches
+  useEffect(() => {
+    setSelectedPackage((prev) => {
+      const match = packages.find((p) => p.leads === prev.leads);
+      return match || packages[0];
+    });
+  }, [selectedCountry.name]);
 
   // Proof & Discovery State
   const [proofLoading, setProofLoading] = useState(false);
@@ -237,7 +253,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
 
       let order: any = null;
       try {
-        order = await api.createPaymentOrder(selectedPackage.id, selectedPackage.leads);
+        order = await api.createPaymentOrder(selectedPackage.id, selectedPackage.leads, selectedCountry.name);
       } catch (orderErr) {
         console.warn('Backend order endpoint notice, opening live checkout directly:', orderErr);
       }
@@ -265,7 +281,16 @@ Website Status: Official Website Not Found (High Opportunity)`;
           const categorySamples = proofData?.samples || [];
           newLeads = Array.from({ length: selectedPackage.leads }).map((_, idx) => {
             const sample = categorySamples[idx % Math.max(1, categorySamples.length)];
-            const rawPhone = '+91 ' + (9820000000 + Math.floor(Math.random() * 89999999)).toString();
+            let rawPhone = '+91 ' + (9820000000 + Math.floor(Math.random() * 89999999)).toString();
+            if (selectedCountry.name === 'USA' || selectedCountry.name === 'Canada') {
+              rawPhone = '+1 ' + (2025550000 + Math.floor(Math.random() * 9999)).toString();
+            } else if (selectedCountry.name === 'UK') {
+              rawPhone = '+44 ' + (2079460000 + Math.floor(Math.random() * 9999)).toString();
+            } else if (selectedCountry.name === 'Australia') {
+              rawPhone = '+61 ' + (298760000 + Math.floor(Math.random() * 9999)).toString();
+            } else if (selectedCountry.name === 'UAE') {
+              rawPhone = '+971 ' + (42000000 + Math.floor(Math.random() * 99999)).toString();
+            }
             return {
               id: 'lead_deliv_' + Math.random().toString(36).substring(2, 9),
               sourcePlaceId: 'place_' + Math.random().toString(36).substring(2, 10),
@@ -819,7 +844,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
               }}
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs shadow-md transition shrink-0"
             >
-              Order Next Batch (₹99 for 5 More)
+              Order Next Batch (₹{selectedPackage.price} for {selectedPackage.leads} More)
             </button>
           </div>
         </div>

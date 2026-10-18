@@ -50,7 +50,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               className="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20 active:scale-95 transition-all flex items-center gap-2 shrink-0"
             >
               <Sparkles className="w-4 h-4" />
-              <span>UNLOCK 5 CLIENTS (₹99)</span>
+              <span>UNLOCK CLIENTS (FROM ₹99)</span>
             </button>
 
             <button
@@ -125,7 +125,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition" />
             </div>
             <h3 className="font-bold text-white text-sm">PRICING & PACKAGES</h3>
-            <p className="text-xs text-slate-400 mt-1">Affordable pay-as-you-go packages starting from ₹99.</p>
+            <p className="text-xs text-slate-400 mt-1">Affordable packages: ₹99 for India & ₹499 for International.</p>
           </div>
         </div>
       </div>

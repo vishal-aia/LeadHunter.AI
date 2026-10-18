@@ -1,6 +1,6 @@
 {
   "name": "LeadHunter AI",
-  "description": "Professional SaaS client acquisition platform finding businesses that need a website with official Razorpay live payment verification and Places intelligence.",
+  "description": "Professional client acquisition platform finding businesses that need a website with official Razorpay live payment verification and Places intelligence.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

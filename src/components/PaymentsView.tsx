@@ -35,12 +35,30 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
   });
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const packages = [
-    { id: 'pack_5', leads: 5, price: 99, currency: 'INR', title: '5 Verified Clients', savings: '₹19.8 / client', desc: 'Ideal for getting your first web design clients' },
-    { id: 'pack_10', leads: 10, price: 170, currency: 'INR', badge: 'MOST POPULAR', title: '10 Verified Clients', savings: 'Save ₹28 • ₹17 / client', desc: 'Best for agencies running active weekly outreach' },
-    { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Verified Clients', savings: 'Save ₹96 • ₹15 / client', desc: 'Maximum savings for established freelancers & teams' },
+  const [region, setRegion] = useState<'india' | 'international'>('india');
+
+  const domesticPackages = [
+    { id: 'pack_5', leads: 5, price: 99, currency: 'INR', title: '5 Verified Clients', savings: '₹19.8 / client', desc: 'Ideal for getting your first web design clients in India' },
+    { id: 'pack_10', leads: 10, price: 170, currency: 'INR', badge: 'MOST POPULAR', title: '10 Verified Clients', savings: 'Save ₹28 • ₹17 / client', desc: 'Best for agencies running active weekly outreach in India' },
+    { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Verified Clients', savings: 'Save ₹96 • ₹15 / client', desc: 'Maximum savings for established freelancers & teams in India' },
   ];
+
+  const internationalPackages = [
+    { id: 'pack_intl_5', leads: 5, price: 499, currency: 'INR', title: '5 International Clients', savings: '₹99.8 / client', desc: 'High-ticket international business clients (US, UK, Canada, Australia, UAE)' },
+    { id: 'pack_intl_10', leads: 10, price: 899, currency: 'INR', badge: 'MOST POPULAR', title: '10 International Clients', savings: 'Save ₹99 • ₹89.9 / client', desc: 'Scale high-converting web design pitches in global markets' },
+    { id: 'pack_intl_20', leads: 20, price: 1399, currency: 'INR', badge: 'BEST VALUE', title: '20 International Clients', savings: 'Save ₹599 • ₹69.95 / client', desc: 'Maximum ROI for global outreach & high-ticket web projects' },
+  ];
+
+  const packages = region === 'india' ? domesticPackages : internationalPackages;
   const [selectedPack, setSelectedPack] = useState(packages[0]);
+
+  // Synchronize selected pack when region changes
+  useEffect(() => {
+    setSelectedPack((prev) => {
+      const match = packages.find((p) => p.leads === prev.leads);
+      return match || packages[0];
+    });
+  }, [region]);
 
   // Dynamically load Razorpay SDK
   const ensureRazorpayLoaded = (): Promise<boolean> => {
@@ -74,7 +92,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
 
       let order: any = null;
       try {
-        order = await api.createPaymentOrder(pkgToBuy.id, pkgToBuy.leads);
+        order = await api.createPaymentOrder(pkgToBuy.id, pkgToBuy.leads, region === 'india' ? 'India' : 'USA');
       } catch (orderErr) {
         console.warn('Backend order endpoint notice, opening live checkout directly:', orderErr);
       }
@@ -205,6 +223,46 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
           <span className="font-semibold">{statusMessage.text}</span>
         </div>
       )}
+
+      {/* Market Selector: Domestic India vs International / Videsh */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-3xl bg-slate-900 border border-slate-800 shadow-lg">
+        <div>
+          <h2 className="text-sm font-extrabold text-white flex items-center gap-2">
+            <span>Select Market Pricing</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-bold border border-slate-700">
+              {region === 'india' ? '🇮🇳 India (Local)' : '🌐 Videsh (International)'}
+            </span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Switch between Indian business leads (from ₹99) and premium foreign business leads (from ₹499).
+          </p>
+        </div>
+
+        <div className="flex items-center gap-1.5 p-1.5 bg-slate-950 rounded-2xl border border-slate-800 shrink-0 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={() => setRegion('india')}
+            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              region === 'india'
+                ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-black'
+                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <span>🇮🇳 India (₹99 for 5)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setRegion('international')}
+            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              region === 'international'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-500/20 font-black'
+                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <span>🌐 Videsh / Intl (₹499 for 5)</span>
+          </button>
+        </div>
+      </div>
 
       {/* Main Pricing Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -369,7 +427,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
           <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 space-y-1.5">
             <h5 className="font-bold text-slate-200">How does client batch unlocking work?</h5>
             <p className="text-slate-400 leading-relaxed">
-              When you unlock a batch (e.g. 5 clients for ₹99), you receive full verified business profiles with direct phone numbers, business address, and pitch scripts. They are permanently saved in your account.
+              When you unlock a batch (e.g. 5 Indian clients for ₹99, or 5 International/Videsh clients for ₹499), you receive full verified business profiles with direct phone numbers, business address, and pitch scripts. They are permanently saved in your account.
             </p>
           </div>
 

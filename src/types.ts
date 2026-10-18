@@ -104,6 +104,8 @@ export interface ClientPackage {
   badge?: string;
   title: string;
   savings?: string;
+  region?: 'domestic' | 'international';
+  desc?: string;
 }
 
 export interface ProofSample {
