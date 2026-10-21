@@ -108,13 +108,13 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <span>🌐 Videsh / International (From ₹499)</span>
+                <span>🌐 Videsh / International (From ₹149)</span>
               </button>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Package 1: 5 Clients - ₹99 (India) / ₹499 (Videsh) */}
+            {/* Package 1: 5 Clients - ₹99 (India) / ₹149 (Videsh) */}
             <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
               <div>
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
@@ -125,10 +125,10 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                 </h3>
                 <div className="mt-3 flex items-baseline gap-1">
                   <span className="text-3xl font-black text-emerald-400">
-                    ₹{marketRegion === 'india' ? '99' : '499'}
+                    ₹{marketRegion === 'india' ? '99' : '149'}
                   </span>
                   <span className="text-xs text-slate-400">
-                    ({marketRegion === 'india' ? '₹19.8' : '₹99.8'} / client)
+                    ({marketRegion === 'india' ? '₹19.8' : '₹29.8'} / client)
                   </span>
                 </div>
                 <ul className="mt-4 space-y-2 text-xs text-slate-300">
@@ -151,11 +151,11 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                 onClick={onExploreSearch}
                 className="mt-6 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition"
               >
-                Select 5 Clients (₹{marketRegion === 'india' ? '99' : '499'})
+                Select 5 Clients (₹{marketRegion === 'india' ? '99' : '149'})
               </button>
             </div>
 
-            {/* Package 2: 10 Clients - ₹170 (India) / ₹899 (Videsh) */}
+            {/* Package 2: 10 Clients - ₹170 (India) / ₹249 (Videsh) */}
             <div className="p-6 rounded-3xl bg-gradient-to-b from-indigo-950/60 via-slate-900 to-slate-900 border-2 border-emerald-400 shadow-xl shadow-emerald-500/10 relative flex flex-col justify-between">
               <span className="absolute -top-3 right-4 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500 text-slate-950 shadow-md">
                 MOST POPULAR
@@ -170,10 +170,10 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                 </h3>
                 <div className="mt-3 flex items-baseline gap-1">
                   <span className="text-3xl font-black text-emerald-400">
-                    ₹{marketRegion === 'india' ? '170' : '899'}
+                    ₹{marketRegion === 'india' ? '170' : '249'}
                   </span>
                   <span className="text-xs text-emerald-300 font-semibold">
-                    {marketRegion === 'india' ? 'Save ₹28 (₹17 / client)' : 'Save ₹99 (₹89.9 / client)'}
+                    {marketRegion === 'india' ? 'Save ₹28 (₹17 / client)' : 'Save ₹49 (₹24.9 / client)'}
                   </span>
                 </div>
                 <ul className="mt-4 space-y-2 text-xs text-slate-300">
@@ -196,11 +196,11 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                 onClick={onExploreSearch}
                 className="mt-6 w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl text-xs shadow-md transition"
               >
-                Select 10 Clients (₹{marketRegion === 'india' ? '170' : '899'})
+                Select 10 Clients (₹{marketRegion === 'india' ? '170' : '249'})
               </button>
             </div>
 
-            {/* Package 3: 20 Clients - ₹300 (India) / ₹1399 (Videsh) */}
+            {/* Package 3: 20 Clients - ₹300 (India) / ₹429 (Videsh) */}
             <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between relative">
               <span className="absolute -top-3 right-4 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500 text-white shadow-md">
                 BEST VALUE
@@ -215,10 +215,10 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                 </h3>
                 <div className="mt-3 flex items-baseline gap-1">
                   <span className="text-3xl font-black text-white">
-                    ₹{marketRegion === 'india' ? '300' : '1399'}
+                    ₹{marketRegion === 'india' ? '300' : '429'}
                   </span>
                   <span className="text-xs text-indigo-300 font-semibold">
-                    {marketRegion === 'india' ? 'Save ₹96 (₹15 / client)' : 'Save ₹599 (₹69.95 / client)'}
+                    {marketRegion === 'india' ? 'Save ₹96 (₹15 / client)' : 'Save ₹167 (₹21.45 / client)'}
                   </span>
                 </div>
                 <ul className="mt-4 space-y-2 text-xs text-slate-300">
@@ -232,7 +232,7 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                    <span>Lifetime Access in My Leads</span>
+                    <span>Permanent Lifetime Access</span>
                   </li>
                 </ul>
               </div>
@@ -241,7 +241,7 @@ export const Hero: React.FC<HeroProps> = ({ onGetLeads, onExploreSearch }) => {
                 onClick={onExploreSearch}
                 className="mt-6 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition"
               >
-                Select 20 Clients (₹{marketRegion === 'india' ? '300' : '1399'})
+                Select 20 Clients (₹{marketRegion === 'india' ? '300' : '429'})
               </button>
             </div>
           </div>

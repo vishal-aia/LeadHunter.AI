@@ -149,13 +149,13 @@ export const api = {
 
       if (isIntl) {
         if (packageId === 'pack_intl_20' || packageId === 'pack_20' || leadCount === 20) {
-          price = 1399;
+          price = 429;
           leads = 20;
         } else if (packageId === 'pack_intl_10' || packageId === 'pack_10' || leadCount === 10) {
-          price = 899;
+          price = 249;
           leads = 10;
         } else {
-          price = 499;
+          price = 149;
           leads = 5;
         }
       } else {

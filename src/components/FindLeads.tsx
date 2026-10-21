@@ -34,13 +34,12 @@ import {
 interface FindLeadsProps {
   user: User | null;
   onRefreshUser: () => void;
-  onNavigateToLeads: () => void;
+  onNavigateToLeads?: () => void;
 }
 
 export const FindLeads: React.FC<FindLeadsProps> = ({
   user,
   onRefreshUser,
-  onNavigateToLeads,
 }) => {
   // Countries list
   const countries = [
@@ -83,7 +82,7 @@ export const FindLeads: React.FC<FindLeadsProps> = ({
   };
   const [city, setCity] = useState('Mumbai');
 
-  // Exact Packages per Country (India: 99/170/300, Videsh / International: 499/899/1399)
+  // Exact Packages per Country (India: 99/170/300, Videsh / International: 149/249/429)
   const isSelectedCountryIndia = selectedCountry.name === 'India';
   const packages: ClientPackage[] = isSelectedCountryIndia
     ? [
@@ -92,9 +91,9 @@ export const FindLeads: React.FC<FindLeadsProps> = ({
         { id: 'pack_20', leads: 20, price: 300, currency: 'INR', badge: 'BEST VALUE', title: '20 Clients', savings: 'Save ₹96 • ₹15 / client' },
       ]
     : [
-        { id: 'pack_intl_5', leads: 5, price: 499, currency: 'INR', title: '5 Clients', savings: '₹99.8 / client' },
-        { id: 'pack_intl_10', leads: 10, price: 899, currency: 'INR', badge: 'MOST POPULAR', title: '10 Clients', savings: 'Save ₹99 • ₹89.9 / client' },
-        { id: 'pack_intl_20', leads: 20, price: 1399, currency: 'INR', badge: 'BEST VALUE', title: '20 Clients', savings: 'Save ₹599 • ₹69.95 / client' },
+        { id: 'pack_intl_5', leads: 5, price: 149, currency: 'INR', title: '5 Clients', savings: '₹29.8 / client' },
+        { id: 'pack_intl_10', leads: 10, price: 249, currency: 'INR', badge: 'MOST POPULAR', title: '10 Clients', savings: 'Save ₹49 • ₹24.9 / client' },
+        { id: 'pack_intl_20', leads: 20, price: 429, currency: 'INR', badge: 'BEST VALUE', title: '20 Clients', savings: 'Save ₹167 • ₹21.45 / client' },
       ];
 
   const [selectedPackage, setSelectedPackage] = useState<ClientPackage>(packages[0]);
@@ -707,15 +706,6 @@ Website Status: Official Website Not Found (High Opportunity)`;
                 <Download className="w-3.5 h-3.5" />
                 <span>Export CSV / Excel</span>
               </button>
-
-              <button
-                type="button"
-                onClick={onNavigateToLeads}
-                className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5"
-              >
-                <span>My Clients</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
             </div>
           </div>
 
@@ -911,18 +901,7 @@ Website Status: Official Website Not Found (High Opportunity)`;
                   </div>
                 </div>
 
-                {/* Permanent Ownership Note */}
-                <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-xs space-y-1">
-                  <div className="flex items-center gap-1.5 font-bold text-emerald-300 text-xs">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Permanent Ownership</span>
-                  </div>
-                  <p className="text-[11px] leading-relaxed text-slate-300">
-                    Ye {selectedPackage.leads} verified clients aapke account me <strong>hamesha ke liye save</strong> rahenge. Dubara inhi clients ko dekhne ke liye koi payment nahi karni hogi.
-                  </p>
-                </div>
-
-                {/* Mobile Number Field with Clear Explanation */}
+                {/* Mobile Number Field */}
                 <div className="space-y-1.5 pt-1">
                   <label className="text-xs font-bold text-slate-200 flex items-center justify-between">
                     <span>Mobile Number (Bank OTP & Receipt)</span>
@@ -942,9 +921,6 @@ Website Status: Official Website Not Found (High Opportunity)`;
                       className="w-full pl-20 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs font-mono tracking-wider focus:ring-2 focus:ring-emerald-500/50"
                     />
                   </div>
-                  <p className="text-[10px] text-slate-400 leading-normal">
-                    <strong>Payment me number kyu mangta hai?</strong> Razorpay ek certified RBI-compliant gateway hai. UPI (GPay, PhonePe, Paytm) aur Card payment ke waqt bank OTP verification aur transaction SMS receipt bhejne ke liye number zaroori hota hai.
-                  </p>
                 </div>
               </div>
 

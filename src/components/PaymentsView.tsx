@@ -44,9 +44,9 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
   ];
 
   const internationalPackages = [
-    { id: 'pack_intl_5', leads: 5, price: 499, currency: 'INR', title: '5 International Clients', savings: '₹99.8 / client', desc: 'High-ticket international business clients (US, UK, Canada, Australia, UAE)' },
-    { id: 'pack_intl_10', leads: 10, price: 899, currency: 'INR', badge: 'MOST POPULAR', title: '10 International Clients', savings: 'Save ₹99 • ₹89.9 / client', desc: 'Scale high-converting web design pitches in global markets' },
-    { id: 'pack_intl_20', leads: 20, price: 1399, currency: 'INR', badge: 'BEST VALUE', title: '20 International Clients', savings: 'Save ₹599 • ₹69.95 / client', desc: 'Maximum ROI for global outreach & high-ticket web projects' },
+    { id: 'pack_intl_5', leads: 5, price: 149, currency: 'INR', title: '5 International Clients', savings: '₹29.8 / client', desc: 'High-ticket international business clients (US, UK, Canada, Australia, UAE)' },
+    { id: 'pack_intl_10', leads: 10, price: 249, currency: 'INR', badge: 'MOST POPULAR', title: '10 International Clients', savings: 'Save ₹49 • ₹24.9 / client', desc: 'Scale high-converting web design pitches in global markets' },
+    { id: 'pack_intl_20', leads: 20, price: 429, currency: 'INR', badge: 'BEST VALUE', title: '20 International Clients', savings: 'Save ₹167 • ₹21.45 / client', desc: 'Maximum ROI for global outreach & high-ticket web projects' },
   ];
 
   const packages = region === 'india' ? domesticPackages : internationalPackages;
@@ -234,7 +234,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
             </span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Switch between Indian business leads (from ₹99) and premium foreign business leads (from ₹499).
+            Switch between Indian business leads (from ₹99) and premium foreign business leads (from ₹149).
           </p>
         </div>
 
@@ -259,7 +259,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
                 : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
-            <span>🌐 Videsh / Intl (₹499 for 5)</span>
+            <span>🌐 Videsh / Intl (₹149 for 5)</span>
           </button>
         </div>
       </div>
@@ -427,7 +427,7 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({
           <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 space-y-1.5">
             <h5 className="font-bold text-slate-200">How does client batch unlocking work?</h5>
             <p className="text-slate-400 leading-relaxed">
-              When you unlock a batch (e.g. 5 Indian clients for ₹99, or 5 International/Videsh clients for ₹499), you receive full verified business profiles with direct phone numbers, business address, and pitch scripts. They are permanently saved in your account.
+              When you unlock a batch (e.g. 5 Indian clients for ₹99, or 5 International/Videsh clients for ₹149), you receive full verified business profiles with direct phone numbers, business address, and pitch scripts. They are permanently saved in your account.
             </p>
           </div>
 

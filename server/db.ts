@@ -46,9 +46,9 @@ export const DOMESTIC_PACKAGES: ClientPackage[] = [
 ];
 
 export const INTERNATIONAL_PACKAGES: ClientPackage[] = [
-  { id: 'pack_intl_5', leads: 5, price: 499, currency: 'INR', title: '5 International Clients', savings: '₹99.8 / client', region: 'international', desc: 'High-ticket international business clients (US, UK, Canada, Australia, UAE)' },
-  { id: 'pack_intl_10', leads: 10, price: 899, currency: 'INR', badge: 'MOST POPULAR', title: '10 International Clients', savings: 'Save ₹99 • ₹89.9 / client', region: 'international', desc: 'Scale high-converting web design pitches in global markets' },
-  { id: 'pack_intl_20', leads: 20, price: 1399, currency: 'INR', badge: 'BEST VALUE', title: '20 International Clients', savings: 'Save ₹599 • ₹69.95 / client', region: 'international', desc: 'Maximum ROI for global outreach & high-ticket web projects' },
+  { id: 'pack_intl_5', leads: 5, price: 149, currency: 'INR', title: '5 International Clients', savings: '₹29.8 / client', region: 'international', desc: 'High-ticket international business clients (US, UK, Canada, Australia, UAE)' },
+  { id: 'pack_intl_10', leads: 10, price: 249, currency: 'INR', badge: 'MOST POPULAR', title: '10 International Clients', savings: 'Save ₹49 • ₹24.9 / client', region: 'international', desc: 'Scale high-converting web design pitches in global markets' },
+  { id: 'pack_intl_20', leads: 20, price: 429, currency: 'INR', badge: 'BEST VALUE', title: '20 International Clients', savings: 'Save ₹167 • ₹21.45 / client', region: 'international', desc: 'Maximum ROI for global outreach & high-ticket web projects' },
 ];
 
 export const CLIENT_PACKAGES: ClientPackage[] = [

@@ -5,7 +5,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Dashboard } from './components/Dashboard';
 import { FindLeads } from './components/FindLeads';
-import { MyLeads } from './components/MyLeads';
 import { PaymentsView } from './components/PaymentsView';
 import { AuthModal } from './components/AuthModal';
 import { safeStorage } from './utils/storage';
@@ -135,14 +134,6 @@ export default function App() {
           <FindLeads
             user={user}
             onRefreshUser={fetchCurrentUser}
-            onNavigateToLeads={() => setActiveTab('my-leads')}
-          />
-        )}
-
-        {activeTab === 'my-leads' && (
-          <MyLeads
-            onNavigateToSearch={() => setActiveTab('find-leads')}
-            onOpenBuyModal={handleOpenBuyModal}
           />
         )}
 

@@ -12,7 +12,6 @@ import {
   Calendar,
   MapPin,
   CheckCircle2,
-  FolderHeart,
 } from 'lucide-react';
 
 interface DashboardProps {
@@ -67,7 +66,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
       {/* Main Action Grid */}
       <div>
         <h2 className="text-base font-bold text-slate-200 mb-4">Quick Operations</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {/* Action 1: UNLOCK 5 CLIENTS */}
           <div
             onClick={onOpenBuyModal}
@@ -80,7 +79,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-emerald-400 group-hover:translate-x-1 transition" />
             </div>
             <h3 className="font-bold text-white text-sm">UNLOCK 5 CLIENTS</h3>
-            <p className="text-xs text-slate-400 mt-1">Get 5 verified local business clients ready for your website pitch.</p>
+            <p className="text-xs text-slate-400 mt-1">Get verified local or international clients ready for your website pitch.</p>
           </div>
 
           {/* Action 2: FIND CLIENTS */}
@@ -98,22 +97,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
             <p className="text-xs text-slate-400 mt-1">Natural language query or city + category search engine.</p>
           </div>
 
-          {/* Action 3: MY LEADS */}
-          <div
-            onClick={() => onNavigate('my-leads')}
-            className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-teal-500/50 hover:bg-slate-850 cursor-pointer transition group"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400 group-hover:scale-110 transition">
-                <FolderHeart className="w-5 h-5" />
-              </div>
-              <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-teal-400 group-hover:translate-x-1 transition" />
-            </div>
-            <h3 className="font-bold text-white text-sm">MY LEADS</h3>
-            <p className="text-xs text-slate-400 mt-1">Access delivered leads, call contacts, and export to CSV.</p>
-          </div>
-
-          {/* Action 4: PRICING & PACKAGES */}
+          {/* Action 3: PRICING & PACKAGES */}
           <div
             onClick={() => onNavigate('payments')}
             className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-purple-500/50 hover:bg-slate-850 cursor-pointer transition group"
@@ -125,7 +109,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
               <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition" />
             </div>
             <h3 className="font-bold text-white text-sm">PRICING & PACKAGES</h3>
-            <p className="text-xs text-slate-400 mt-1">Affordable packages: ₹99 for India & ₹499 for International.</p>
+            <p className="text-xs text-slate-400 mt-1">Affordable packages: ₹99 for India & ₹149 for International.</p>
           </div>
         </div>
       </div>
@@ -154,7 +138,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, metrics, onNavigate,
 
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
           <div className="w-9 h-9 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400">
-            <FolderHeart className="w-5 h-5" />
+            <ShoppingBag className="w-5 h-5" />
           </div>
           <h4 className="font-bold text-sm text-white">Lifetime Lead Storage</h4>
           <p className="text-xs text-slate-400 leading-relaxed">

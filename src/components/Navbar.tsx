@@ -4,7 +4,6 @@ import {
   Globe2,
   Coins,
   Search,
-  FolderHeart,
   CreditCard,
   ShieldCheck,
   LogOut,
@@ -40,7 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Globe2 },
     { id: 'find-leads', label: 'Find Leads', icon: Search },
-    { id: 'my-leads', label: 'My Leads', icon: FolderHeart },
     { id: 'payments', label: 'Pricing & Plans', icon: CreditCard },
   ];
 
